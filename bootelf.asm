@@ -24,7 +24,7 @@ _start:
   xor bx, bx
   mov ds, bx
 
-	mov bp, elf_load_base/0x10 - 0x20
+  mov bp, elf_load_base/0x10 - 0x20
 
   clc
 
@@ -130,8 +130,8 @@ dw 8 * 2 - 1 ; Really who cares but sure
 dd gdt - 8
 
 gdt:
-	; Descriptor 0x08, the only descriptor
-	dq 0x00A09A0000000000
+  ; Descriptor 0x08, the only descriptor
+  dq 0x00A09A0000000000
 
 times 510-($-$$) db 0
 dw 0xaa55
