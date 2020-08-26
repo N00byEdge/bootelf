@@ -26,8 +26,6 @@ _start:
 
   mov bp, elf_load_base/0x10 - 0x20
 
-  clc
-
   mov dh, 0          ; Head 0
   mov cx, 0x0001     ; Cylinder 0, sector 1
 disk_read_loop:
