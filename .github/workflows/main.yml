@@ -21,7 +21,6 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get upgrade
           sudo apt-get install nasm qemu
         
       # Runs a set of commands using the runners shell
