@@ -18,6 +18,6 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Run the tests
         run: |
+          cd $GITHUB_WORKSPACE
           ls -Rlha
-          cd $GITHUB_WORKSPACE/bootelf
           make
