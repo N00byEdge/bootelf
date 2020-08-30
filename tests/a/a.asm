@@ -21,11 +21,26 @@ _start:
 
   ; Absolute addressing
   mov rdi, [pass_location]
+
+  ; Print a string
   mov al, 'P'
-  stosw
+  call putch
   mov al, 'A'
-  stosw
+  call putch
   mov al, 'S'
-  stosw
-  stosw
+  call putch
+  call putch
+  mov al, '!'
+  call putch
+  mov al, 0x0a
+  out 0xE9, al
+
+  ; Shutdown
+  mov al, 0xFE
+  out 0x64, al
   jmp $
+
+putch:
+  out 0xE9, al
+  stosw
+  ret
