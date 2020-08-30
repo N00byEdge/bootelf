@@ -27,4 +27,4 @@ jobs:
       - name: Run the tests
         run: |
           cd $GITHUB_WORKSPACE
-          make
+          QEMUFlags='-display none' make
