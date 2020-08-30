@@ -22,5 +22,4 @@ jobs:
       - name: Run the tests
         run: |
           cd $GITHUB_WORKSPACE
-          ls -Rlha
           make
