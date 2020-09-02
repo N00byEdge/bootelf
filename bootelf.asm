@@ -41,17 +41,17 @@ disk_read_loop:
   jnc disk_read_loop
 stopread:
 
+  ; Clear page tables
+  xor di, di
+  xor al, al
+  lea cx, [0x5000]
+  rep stosb
+
   cli
 
   ; We have now abused the BIOS as much as we need/want to.
   ; Time to go to 64 bits.
   lgdt [gdtr]
-
-  ; Clear page tables
-  xor di, di
-  xor al, al
-  lea cx, [0x4000]
-  rep stosb
 
   mov eax, 0x1000
   mov word [eax], page_table + 0x2000 ; Write page table root
