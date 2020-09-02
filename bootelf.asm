@@ -120,8 +120,7 @@ next_phdr:
   dec r11
   jnz do_phdr
 
-  mov rax, [r10 + elf_entry]
-  jmp rax
+  jmp [r10 + elf_entry]
 
 gdtr:
 dw 8 * 2 - 1 ; Really who cares but sure
