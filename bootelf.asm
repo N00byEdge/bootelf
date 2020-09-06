@@ -18,6 +18,8 @@ mapping_2m equ 0x83
 
 dl_save equ 0x0FF0
 
+; Page tables will be zeroed together with this memory
+bootelf equ 0x4000
 [bits 16]
 org 0x7C00
 _start:
@@ -119,6 +121,9 @@ next_phdr:
   add r8, r9
   dec r11
   jnz do_phdr
+
+  mov rdi, bootelf
+  mov dword[rdi], 0xb007e1f ; Bootelf version 0
 
   jmp [r10 + elf_entry]
 
