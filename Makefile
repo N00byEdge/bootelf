@@ -1,5 +1,5 @@
-all: tests/a/a.bin  tests/c/c.bin
-	echo -n $^ | xargs -n 1 -d ' ' -I diskhere -- qemu-system-x86_64 $(QEMUFlags) -drive format=raw,file=diskhere -debugcon stdio -no-reboot
+all: tests/a/a.bin  tests/c/c.bin tests/dump/dump.bin
+	echo -n $^ | xargs -n 1 -d ' ' -I diskhere -- qemu-system-x86_64 $(QEMUFlags) -drive format=raw,file=diskhere -debugcon stdio -no-reboot -s
 
 .PHONY: all clean
 .SECONDARY:;
