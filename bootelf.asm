@@ -139,8 +139,7 @@ bits64:
   movzx r9, word [r10 + elf_phentsize]
 
 do_phdr:
-  mov eax, [r8 + phdr_type]
-  cmp al, 0x01 ; eax theoretically but let's save bytes
+  cmp byte [r8 + phdr_type], 1 ; dword theoretically but let's save bytes
   jne next_phdr
 
   mov rdi, [r8 + phdr_vaddr]
