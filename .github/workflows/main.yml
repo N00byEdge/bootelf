@@ -28,3 +28,8 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE
           QEMUFlags='-display none' make
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: bootelf
+          path: bootelf
