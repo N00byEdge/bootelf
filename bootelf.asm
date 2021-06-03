@@ -55,7 +55,6 @@ stopread:
   rep stosb
 
   ; Now let's get the memory map
-  xor bp, bp ; Entry count
   mov es, bp
   mov [ebx_save], bp ; Zero out ebx save
   mov di, memmap_location
@@ -76,7 +75,7 @@ memmap_loop:
 
   mov [ebx_save], ebx
   add di, 24
-  inc bp
+  inc word [bootelf_memmap_num]
 
   test ebx, ebx
   jz stopmemmap
@@ -84,7 +83,6 @@ memmap_loop:
   jmp memmap_loop
 
 stopmemmap:
-  mov [bootelf_memmap_num], bp
 
   ; We have now abused the BIOS as much as we need/want to.
   ; Time to go to 64 bits.
