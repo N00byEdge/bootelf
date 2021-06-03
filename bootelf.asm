@@ -19,7 +19,7 @@ mapping_2m equ 0x83
 dl_save equ 0x0FF0
 
 ; Page tables will be zeroed together with this memory
-bootelf equ 0x4000
+bootelf equ 0x5000
 bootelf_memmap_num equ bootelf + 8
 bootelf_memmap_entries equ bootelf + 16
 memmap_location equ bootelf + 0x100
@@ -93,14 +93,18 @@ stopmemmap:
   lgdt [gdtr]
 
   mov eax, 0x1000
-  mov word [eax], page_table + 0x2000 ; Write page table root
+  mov word [eax + 0x000], page_table + 0x2000 ; Write page table root
+  mov word [eax + 0xFF8], page_table + 0x2000 ; Upper half is same
   mov cr3, eax
-  mov word [0x2000], page_table + 0x3000 ; Second level
+  mov word [0x2000], page_table + 0x3000 ; First G
+  mov word [0x2008], page_table + 0x4000 ; Second G
+  mov word [0x2FF0], page_table + 0x3000 ; -2G
+  mov word [0x2FF8], page_table + 0x4000 ; -1G
 
-  ; Indentity map bottom 1G
+  ; Indentity map bottom 2G
   mov di, 0x3000
   xor ax, ax
-  mov cx, 0x200
+  mov cx, 0x400
 moremappings:
   mov word [di], mapping_2m ; Third level
   mov word [di + 3], ax

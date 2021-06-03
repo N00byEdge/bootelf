@@ -5,7 +5,7 @@ Just append your elf to this boot sector and you will boot straight into it.
 
 ## Details
 * Interrupts are disabled
-* Bottom 1G is identity mapped
+* Bottom 2G is identity mapped at virtaddr 0, top half base and -2G
 * Your elf file is loaded at `0x7E00`.
 * Any memory below `0x7E00` should not be touched unless you've stopped using the bootloaders page tables, structures (including memory map!) and GDT
 * You will get a `Bootelf_data *` passed in `rdi` (first argument in any sensible calling convention):
