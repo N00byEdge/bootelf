@@ -31,6 +31,7 @@ _start:
   mov ds, bx
   mov ss, bx
 
+  ; Read ELF file from disk
   mov bp, elf_load_base/0x10 - 0x20
 
   mov dh, 0          ; Head 0
