@@ -30,10 +30,19 @@ struct Bootelf_memmap_entry {
   u32 acpi3type;
 };
 
+// 32 bpp framebuffer
+struct Bootelf_framebuffer {
+  u64 base;
+  u32 pitch;
+  u32 width;
+  u32 height;
+};
+
 struct Bootelf_data {
   u64 magic;
   u64 numEntries;
   struct Bootelf_memmap_entry *entries;
+  struct Bootelf_framebuffer framebuffer;
 };
 
 #define print_value(str, val) \
@@ -59,6 +68,11 @@ int _start(struct Bootelf_data *ptr) {
     print_value(" type:  ", ptr->entries[i].type);
     print_value(" acpi3: ", ptr->entries[i].acpi3type);
   }
+
+  print_value("Framebuffer base:   ", ptr->framebuffer.base);
+  print_value("Framebuffer pitch:  ", ptr->framebuffer.pitch);
+  print_value("Framebuffer width:  ", ptr->framebuffer.width);
+  print_value("Framebuffer height: ", ptr->framebuffer.height);
 
   shutdown();
   while(1);

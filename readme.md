@@ -14,6 +14,15 @@ Just append your elf to this boot sector and you will boot straight into it.
       u64 magic; // == 0xb00731f, read as bootelf
       u64 numEntries;
       struct Bootelf_memmap_entry *entries;
+      struct Bootelf_framebuffer framebuffer;
+    };
+
+    // 32 bpp framebuffer
+    struct Bootelf_framebuffer {
+      u64 base;
+      u32 pitch;
+      u32 width;
+      u32 height;
     };
     
     struct Bootelf_memmap_entry {
@@ -23,4 +32,4 @@ Just append your elf to this boot sector and you will boot straight into it.
       u32 acpi3type;
     };
     ```
-    `Bootelf_memmap_entry` directly corresponds to the values aquired from a E820 memory map, and should be interpreted as such.
+    `Bootelf_memmap_entry` directly corresponds to the values aquired from a E820 memory map, and should be interpreted as such. Note that the framebuffer might be unmapped. If the `base` field in the framebuffer struct is `0`, bootelf was unable to get you a framebuffer, and the standard VESA text mode will be active.
