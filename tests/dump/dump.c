@@ -1,5 +1,8 @@
 #include <stdbool.h>
 
+typedef unsigned int u32;
+typedef unsigned long long u64;
+
 void outb(unsigned short port, char val) {
   asm volatile (
     "outb %[val], %[port]\n\t"
@@ -17,19 +20,19 @@ void shutdown(void) {
   outb(0x64, 0xFE);
 }
 
-void print_hex_impl(unsigned long long num, int nibbles) { for(int i = nibbles - 1; i >= 0; -- i) outb(0xE9, "0123456789ABCDEF"[(num >> (i * 4))&0xF]); }
-#define print_hex(num) print_hex_impl((unsigned long long)(num), sizeof((num)) * 2)
+void print_hex_impl(u64 num, int nibbles) { for(int i = nibbles - 1; i >= 0; -- i) outb(0xE9, "0123456789ABCDEF"[(num >> (i * 4))&0xF]); }
+#define print_hex(num) print_hex_impl((u64)(num), sizeof((num)) * 2)
 
 struct Bootelf_memmap_entry {
-  unsigned long long base;
-  unsigned long long size;
-  unsigned type;
-  unsigned acpi3type;
+  u64 base;
+  u64 size;
+  u32 type;
+  u32 acpi3type;
 };
 
 struct Bootelf_data {
-  unsigned long long magic;
-  unsigned long long numEntries;
+  u64 magic;
+  u64 numEntries;
   struct Bootelf_memmap_entry *entries;
 };
 
@@ -49,7 +52,7 @@ int _start(struct Bootelf_data *ptr) {
   print_value("Bootelf memmap size: ", ptr->numEntries);
   print_value("Bootelf memmap ptr: ", ptr->entries);
 
-  for(unsigned i = 0; i < ptr->numEntries; ++ i) {
+  for(u32 i = 0; i < ptr->numEntries; ++ i) {
     print_value("Memmap entry ", i);
     print_value(" base:  ", ptr->entries[i].base);
     print_value(" size:  ", ptr->entries[i].size);
