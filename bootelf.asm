@@ -49,9 +49,9 @@ disk_read_loop:
 stopread:
 
   ; Clear page tables
-  xor di, di
+  mov di, 0x800
   xor al, al
-  lea cx, [0x5000]
+  lea cx, [0x7C00 - 0x800]
   rep stosb
 
   ; Now let's get the memory map
