@@ -48,7 +48,7 @@ disk_read_loop:
   jnc disk_read_loop
 stopread:
 
-  ; Clear page tables
+  ; Clear memory we assume is zeroed
   mov di, 0x800
   xor al, al
   lea cx, [0x7C00 - 0x800]
