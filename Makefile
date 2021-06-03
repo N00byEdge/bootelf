@@ -22,7 +22,7 @@ $(1)/%.elf: $(1)/%.o Makefile
 
 $(1)/%.bin: bootelf $(1)/%.elf Makefile
 	cat $$^ > $$@
-	 truncate -s '%512' $$@
+	truncate -s '%512' $$@
 endef
 
 $(foreach test, $(shell find tests -maxdepth 1 -mindepth 1),$(eval $(call TestTemplate,$(test))))
