@@ -1,7 +1,5 @@
 elf_load_base equ 0x7E00
 
-dl_save equ 0x0FF0
-
 bootelf equ 0x5000
 
 [bits 16]
