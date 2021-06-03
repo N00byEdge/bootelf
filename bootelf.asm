@@ -29,6 +29,7 @@ org 0x7C00
 _start:
   xor bx, bx
   mov ds, bx
+  mov ss, bx
 
   mov bp, elf_load_base/0x10 - 0x20
 
