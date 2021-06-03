@@ -55,8 +55,7 @@ stopread:
   rep stosb
 
   ; Now let's get the memory map
-  mov es, bp
-  mov [ebx_save], bp ; Zero out ebx save
+  mov es, [ebx_save] ; Get a zero into es
   mov di, memmap_location
   mov word [bootelf_memmap_entries], di
 
