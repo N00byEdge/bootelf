@@ -4,7 +4,7 @@ mapping_2m equ 0x83
 
   mov eax, 0x1000
   mov word [eax + 0x000], page_table | 0x2000 ; Write page table root
-  mov word [eax + 0xFF8], page_table | 0x2000 ; Upper half is same
+  mov word [0x1FF8], page_table | 0x2000 ; Upper half is same
   mov cr3, eax
   mov word [0x2000], page_table | 0x3000 ; First G
   mov word [0x2008], page_table | 0x4000 ; Second G
