@@ -87,10 +87,9 @@ memmap_loop:
 stopmemmap:
   mov [bootelf_memmap_num], bp
 
-  cli
-
   ; We have now abused the BIOS as much as we need/want to.
   ; Time to go to 64 bits.
+  cli
   lgdt [gdtr]
 
   mov eax, 0x1000
