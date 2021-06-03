@@ -39,5 +39,5 @@ clean:
 	rm -v tests/*/*.elf || true
 	rm -v tests/*/*.o   || true
 
-bootelf: bootelf.asm framebuffer.asm
+bootelf: bootelf.asm framebuffer.asm elf_load.asm
 	nasm $< -o $@
