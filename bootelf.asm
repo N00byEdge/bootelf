@@ -59,7 +59,6 @@ stopread:
   mov [ebx_save], bp ; Zero out ebx save
   mov di, memmap_location
   mov word [bootelf_memmap_entries], di
-  xor ecx, 24
 
 memmap_loop:
   mov eax, 0xE820
