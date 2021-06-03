@@ -1,14 +1,7 @@
-all: tests/a/a.bin  tests/c/c.bin tests/dump/dump.bin
-	echo -n $^ | xargs -n 1 -d ' ' -I diskhere -- qemu-system-x86_64 $(QEMUFlags) -drive format=raw,file=diskhere -debugcon stdio -no-reboot -s
-
 .PHONY: all clean
 .SECONDARY:;
 
-clean:
-	rm -v bootelf       || true
-	rm -v tests/*/*.bin || true
-	rm -v tests/*/*.elf || true
-	rm -v tests/*/*.o   || true
+default: all
 
 define TestTemplate =
 $(1)/%.o: $(1)/%.asm Makefile
@@ -23,9 +16,28 @@ $(1)/%.elf: $(1)/%.o Makefile
 $(1)/%.bin: bootelf $(1)/%.elf Makefile
 	cat $$^ > $$@
 	truncate -s '%512' $$@
+
+tname := $$(word 2,$$(subst /, ,$(1)))
+tests := $$(tests) tests/$$(tname)/$$(tname).bin
 endef
 
 $(foreach test, $(shell find tests -maxdepth 1 -mindepth 1),$(eval $(call TestTemplate,$(test))))
+
+all: $(tests)
+	echo -n $^ | \
+		xargs -n 1 -d ' ' -I diskhere -- \
+		qemu-system-x86_64\
+			$(QEMUFlags)\
+			-drive format=raw,file=diskhere\
+			-debugcon stdio\
+			-no-reboot\
+			-s
+
+clean:
+	rm -v bootelf       || true
+	rm -v tests/*/*.bin || true
+	rm -v tests/*/*.elf || true
+	rm -v tests/*/*.o   || true
 
 bootelf: bootelf.asm
 	nasm $< -o $@
