@@ -20,8 +20,8 @@ dl_save equ 0x0FF0
 bootelf equ 0x5000
 bootelf_memmap_num equ bootelf + 8
 bootelf_memmap_entries equ bootelf + 16
-memmap_location equ bootelf + 0x100
 
+memmap_location equ bootelf + 0x100
 ebx_save equ bootelf + 0x200
 
 [bits 16]
