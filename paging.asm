@@ -16,7 +16,7 @@ mapping_2m equ 0x83
   xor ax, ax
   mov cx, 0x400
 moremappings:
-  mov word [di], mapping_2m ; Third level
+  mov byte [di], mapping_2m ; Third level
   mov word [di + 3], ax
   add di, 8
   add ax, 2
