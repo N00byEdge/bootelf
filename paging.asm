@@ -19,5 +19,6 @@ moremappings:
   mov byte [di], mapping_2m ; Third level
   mov word [di + 3], ax
   add di, 8
-  add ax, 2
+  inc ax
+  inc ax
   loop moremappings
