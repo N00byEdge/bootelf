@@ -1,5 +1,3 @@
-gdt_things equ gdt + 8 + 5
-
 elf_load_base equ 0x7E00
 
 elf_entry equ 24
@@ -127,10 +125,7 @@ moremappings:
 
 [bits 64]
 bits64:
-  xor word[gdt_things], ~(0xA09A ^ 0x0092) ; Make descriptor 8 a data descriptor instead
-  mov ax, 0x08 ; Start using the new one
-  mov ds, ax
-
+  ; No reason to reload ds as base and limit is ignored
   mov r10, elf_load_base
   xor al, al
 
