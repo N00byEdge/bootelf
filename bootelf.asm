@@ -10,18 +10,17 @@ _start:
   mov ss, bx
 
   ; Read ELF file from disk
-  mov bp, elf_load_base/0x10 - 0x20
-
-  mov dh, 0          ; Head 0
-  mov cx, 0x0001     ; Cylinder 0, sector 1
 disk_read_loop:
-  add cl, 1
-  jc stopread
-  add bp, 0x20
-  mov es, bp
-  mov ax, 0x0201     ; Number of sectors to read (al) = 1
-                     ; Command                   (ah) = 2 (Read Sectors From Drive)
+  add word [dap.offset], 0x200
+  jnc no_overflow
+  add word [dap.segment], 0x1000
+no_overflow:
+  inc dword [dap.lba]
+  push dx
+  mov ah, 0x42
+  mov si, dap
   int 0x13
+  pop dx
   ; Hey, that worked. Cool.
   ; Let's just continue reading until we hit some error.
   jnc disk_read_loop
@@ -36,7 +35,7 @@ stopread:
   %include "memmap.asm"
 
   ; Comment out to skip getting a framebuffer
-  %include "framebuffer.asm"
+  ; %include "framebuffer.asm"
 
   ; We have now abused the BIOS as much as we need/want to.
   ; Time to go to 64 bits.
@@ -57,6 +56,13 @@ stopread:
   mov cr0, eax
 
   jmp 0x08:bits64
+
+dap:
+  dw 16
+  dw 1
+  .offset: dw 0x7C00
+  .segment: dw 0
+  .lba: dq 0
 
 [bits 64]
 bits64:
