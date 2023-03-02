@@ -45,10 +45,11 @@ stopread:
   %include "paging.asm"
 
   mov eax, cr4
-  or al, (1 << 5)
+  or al, 0xA3
   mov cr4, eax
 
   mov ecx, 0xc0000080
+  rdmsr
   or ax, (1 << 8)
   wrmsr
 
