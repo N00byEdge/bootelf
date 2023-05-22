@@ -10,38 +10,38 @@ phdr_vaddr equ phdr_offset + 8
 phdr_filesz equ phdr_vaddr + 16
 phdr_memsz equ phdr_filesz + 8
 
-  mov r10, elf_load_base
-  xor al, al
+  mov ebx, elf_load_base
 
   ; Okay who cares about doing reasonable things?
   ; Just assume it's a valid ELF and that it does nothing bad
-  mov r8, [r10 + elf_phoff]
-  add r8, r10
-  movzx r11, word [r10 + elf_phnum]
-  movzx r9, word [r10 + elf_phentsize]
+  mov edx, [rbx + elf_phoff]
+  add edx, ebx
+  movzx ebp, word [rbx + elf_phnum]
 
 do_phdr:
-  cmp byte [r8 + phdr_type], 1 ; dword theoretically but let's save bytes
+  cmp dword [rdx + phdr_type], 1
   jne next_phdr
 
-  mov rdi, [r8 + phdr_vaddr]
-  mov rsi, [r8 + phdr_offset]
-  add rsi, r10
+  mov rdi, [rdx + phdr_vaddr]
+  mov esi, [rdx + phdr_offset]
+  add esi, ebx
 
-  mov rcx, [r8 + phdr_filesz]
-  mov r12, rcx
+  mov ecx, [rdx + phdr_filesz]
+  mov eax, ecx
   rep movsb
 
-  mov rcx, [r8 + phdr_memsz]
-  sub rcx, r12
+  mov rcx, [rdx + phdr_memsz]
+  sub rcx, rax
+  xor al, al
   rep stosb
 
 next_phdr:
-  add r8, r9
-  dec r11
+  movzx eax, word [rbx + elf_phentsize]
+  add edx, eax
+  dec ebp
   jnz do_phdr
 
-  mov rdi, bootelf
+  mov edi, bootelf
   mov dword[rdi], 0xb007e1f ; Bootelf version 0
 
-  jmp [r10 + elf_entry]
+  jmp [rbx + elf_entry]
