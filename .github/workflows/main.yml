@@ -21,13 +21,18 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install nasm qemu-system-x86
+          sudo apt-get install nasm qemu-system-x86 xxd
         
       # Runs a set of commands using the runners shell
       - name: Run the tests
         run: |
           cd $GITHUB_WORKSPACE
           QEMUFlags='-display none' make
+
+      - name: Hexdump the file
+        run: |
+          cd $GITHUB_WORKSPACE
+          xxd bootelf
 
       - uses: actions/upload-artifact@v2
         with:
