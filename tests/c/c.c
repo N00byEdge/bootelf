@@ -7,7 +7,7 @@ void outb(unsigned short port, char val) {
   asm volatile (
     "outb %[val], %[port]\n\t"
     :
-    : [val] "al" (val), [port] "dx" (port)
+    : [val] "a" (val), [port] "d" (port)
   );
 }
 
