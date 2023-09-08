@@ -17,8 +17,7 @@ mapping_2m equ 0x83
   mov cx, 0x400
 moremappings:
   mov byte [di], mapping_2m ; Third level
-  mov word [di + 3], ax
+  mov word [di + 2], ax
   add di, 8
-  inc ax
-  inc ax
+  add ax, 32
   loop moremappings
