@@ -71,12 +71,9 @@ bits64:
   %include "elf_load.asm"
 
 gdtr:
-dw 8 * 2 - 1 ; Really who cares but sure
-dd gdt - 8
-
-gdt:
-  ; Descriptor 0x08, the only descriptor
-  dq 0x00A09A0000000000
+  db 0x0F, 0x00
+  dw gdtr - 6
+  db 0x00, 0x00, 0x00, 0x9A, 0xA0, 0x00
 
 times 510-($-$$) db 0
 dw 0xaa55
