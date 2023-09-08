@@ -1,6 +1,6 @@
 elf_load_base equ 0x7E00
 
-bootelf equ 0x5000
+bootelf equ 0x7000
 
 [bits 16]
 org 0x7C00
