@@ -3,15 +3,23 @@
 
 default: all
 
+NASM ?= nasm
+CC ?= gcc
+LD ?= ld
+
+ifeq (3.81,$(MAKE_VERSION))
+$(error Error: apple make is not supported! Use gmake from homebrew instead)
+endif
+
 define TestTemplate =
 $(1)/%.o: $(1)/%.asm Makefile
 	nasm $$< -o $$@ -felf64
 
 $(1)/%.o: $(1)/%.c Makefile
-	gcc $$< -c -o $$@ -e _start
+	$(CC) $$< -c -o $$@ -e _start
 
 $(1)/%.elf: $(1)/%.o Makefile
-	ld $$< -o $$@
+	$(LD) $$< -o $$@
 
 $(1)/%.bin: bootelf $(1)/%.elf Makefile
 	cat $$^ > $$@
@@ -24,8 +32,8 @@ endef
 $(foreach test, $(shell find tests -maxdepth 1 -mindepth 1),$(eval $(call TestTemplate,$(test))))
 
 all: $(tests)
-	echo -n $^ | \
-		xargs -n 1 -d ' ' -I diskhere -- \
+	printf "%s\n" $(tests) | \
+		xargs -n 1 -I diskhere -- \
 		qemu-system-x86_64\
 			$(QEMUFlags)\
 			-drive format=raw,file=diskhere\
