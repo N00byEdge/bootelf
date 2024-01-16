@@ -29,8 +29,9 @@ stopread:
   ; Clear memory we assume is zeroed
   mov di, 0x800
   xor al, al
-  lea cx, [0x7C00 - 0x800]
+  mov cx, 0x7C00 - 0x800
   rep stosb
+  mov word [di], 0xa09a
 
   %include "memmap.asm"
 
@@ -71,9 +72,8 @@ bits64:
   %include "elf_load.asm"
 
 gdtr:
-  db 0x0F, 0x00
-  dw gdtr - 6
-  db 0x00, 0x00, 0x00, 0x9A, 0xA0, 0x00
+  dw 8 * 2 - 1
+  dd 0x7c00 - 5 - 8
 
 times 510-($-$$) db 0
 dw 0xaa55
