@@ -1,4 +1,5 @@
 elf_load_base equ 0x7E00
+elf_num_blocks equ (0x80000 - 0x7E00) / 0x200
 
 bootelf equ 0x7000
 
@@ -8,12 +9,15 @@ _start:
   xor bx, bx
   mov ds, bx
   mov ss, bx
+  mov bx, elf_num_blocks
 
   ; Read ELF file from disk
 disk_read_loop:
   add word [dap.offset], 0x200
   jnc no_overflow
   add word [dap.segment], 0x1000
+  dec word bx
+  jnc stopread
 no_overflow:
   inc dword [dap.lba]
   push dx
@@ -21,8 +25,6 @@ no_overflow:
   mov si, dap
   int 0x13
   pop dx
-  ; Hey, that worked. Cool.
-  ; Let's just continue reading until we hit some error.
   jnc disk_read_loop
 stopread:
 
