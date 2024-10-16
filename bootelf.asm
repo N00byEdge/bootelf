@@ -9,23 +9,21 @@ _start:
   xor bx, bx
   mov ds, bx
   mov ss, bx
-  mov bx, elf_num_blocks
+  mov cx, elf_num_blocks
 
   ; Read ELF file from disk
 disk_read_loop:
-  add word [dap.offset], 0x200
-  jnc no_overflow
-  add word [dap.segment], 0x1000
-  dec word bx
-  jnc stopread
-no_overflow:
-  inc dword [dap.lba]
+  mov si, dap
+  add word [si + dap.segment - dap], 0x20
+
+  inc dword [si + dap.lba - dap]
   push dx
   mov ah, 0x42
-  mov si, dap
   int 0x13
   pop dx
-  jnc disk_read_loop
+
+  jc stopread
+  loop disk_read_loop
 stopread:
 
   ; Clear memory we assume is zeroed
@@ -73,8 +71,7 @@ bits64:
   ; No reason to reload ds as base and limit is ignored
   %include "elf_load.asm"
 
-gdtr:
-  dw 8 * 2 - 1
+gdtr equ $ - 2
   dd 0x7c00 - 5 - 8
 
 times 510-($-$$) db 0
