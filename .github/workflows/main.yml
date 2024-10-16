@@ -34,7 +34,7 @@ jobs:
           cd $GITHUB_WORKSPACE
           xxd bootelf
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: bootelf
           path: bootelf
