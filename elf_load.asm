@@ -26,13 +26,12 @@ do_phdr:
   mov esi, [rdx + phdr_offset]
   add esi, ebx
 
+  mov rax, [rdx + phdr_memsz]
   mov ecx, [rdx + phdr_filesz]
-  mov eax, ecx
+  sub rax, rcx
   rep movsb
 
-  mov rcx, [rdx + phdr_memsz]
-  sub rcx, rax
-  xor al, al
+  xchg rax, rcx
   rep stosb
 
 next_phdr:
