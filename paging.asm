@@ -23,7 +23,7 @@ morel1map:
   xor ax, ax
 moremappings:
   mov byte [di], mapping_2m ; Third level
-  stosw
-  add di, 6
+  mov word [di + 2], ax
+  add di, 8
   add ax, 32
   jnc moremappings
