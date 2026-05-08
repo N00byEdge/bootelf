@@ -15,8 +15,7 @@ _start:
 disk_read_loop:
   mov si, dap
   add word [si + dap.segment - dap], 0x20
-
-  inc dword [si + dap.lba - dap]
+  inc word [si + dap.lba - dap]
   push dx
   mov ah, 0x42
   int 0x13

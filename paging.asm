@@ -2,9 +2,10 @@
 page_table equ 0x03
 mapping_2m equ 0x83
 
+  mov ax, page_table | 0x2000
+  mov word [0x1000], ax ; Write page table root
+  mov word [0x1FF8], ax ; Upper half is same
   mov eax, 0x1000
-  mov word [eax + 0x000], page_table | 0x2000 ; Write page table root
-  mov word [0x1FF8], page_table | 0x2000 ; Upper half is same
   mov cr3, eax
 
   mov bx, 0x2018

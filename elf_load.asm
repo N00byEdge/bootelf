@@ -10,7 +10,8 @@ phdr_vaddr equ phdr_offset + 8
 phdr_filesz equ phdr_vaddr + 16
 phdr_memsz equ phdr_filesz + 8
 
-  mov ebx, elf_load_base
+  xor ebx, ebx
+  mov bh, elf_load_base >> 8
 
   ; Okay who cares about doing reasonable things?
   ; Just assume it's a valid ELF and that it does nothing bad
