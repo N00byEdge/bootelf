@@ -99,8 +99,8 @@ get_video_loop:
   jne get_video_loop
 
   ; We got it!
-  mov bx, [di + vesa_pitch_offset]
-  mov [bootelf_fb_pitch], bx
+  mov ax, [di + vesa_pitch_offset]
+  mov [bootelf_fb_pitch], ax
 
   mov eax, [di + vesa_framebuffer_offset]
   mov [bootelf_fb_addr], eax
