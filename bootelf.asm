@@ -8,7 +8,7 @@ org 0x7C00
 _start:
   xor bx, bx
   mov ds, bx
-  mov ss, bx
+  mov es, bx
   mov cx, elf_num_blocks
 
   ; Read ELF file from disk
