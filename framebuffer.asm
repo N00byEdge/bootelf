@@ -107,7 +107,7 @@ get_video_loop:
 
   ; Set the mode
   mov bx, cx
-  bts bx, 14
+  or bh, 0x40
   mov ax, 0x4f02
   int 0x10
 
